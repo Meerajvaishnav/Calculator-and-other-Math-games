@@ -85,17 +85,14 @@ This project addresses these problems by providing a **gamified, user-friendly p
 
 ## Screenshots
 
-### Home Page
-![Home Page](screenshots/home.png)
-
 ### Calculator
-![Calculator](screenshots/calculator.png)
+![Calculator](screenshots/Calc.png)
 
 ### Math Game
-![Math Game](screenshots/math-game.png)
+![Math Game](screenshots/math_game.png)
 
 ### Number ↔ Words Converter
-![Converter](screenshots/converter.png)
+![Converter](screenshots/Converter_num_words.png)
 
 ### Sudoku Game
-![Sudoku](screenshots/sudoku.png)
+![Sudoku](screenshots/sudokku.png)
