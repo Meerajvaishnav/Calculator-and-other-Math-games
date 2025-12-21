@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sudoku</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #1e1e2f;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+select {
+    margin-bottom: 15px;
+    padding: 6px 10px;
+    font-size: 16px;
+}
+
+.sudoku {
+    display: grid;
+    gap: 2px;
+    background: #000;
+    padding: 4px;
+}
+
+.cell {
+    text-align: center;
+    font-size: 20px;
+    background: #f0f0f0;
+    border: 1px solid #bbb;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.cell:disabled {
+    background: #bbb;
+    font-weight: bold;
+}
+
+.invalid {
+    background: #ff8a8a !important;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    background: #fff;
+    box-shadow: 0 4px 10px #05e6fbf2;
+}
+
+button:hover {
+    background:  #adf7fdf2;
+    color: #000;
+    transform: scale(1.05);
+}
+.sel{
+    font-family: cursive;
+
+}
+.home-btn {
+    position: fixed;
+    top: 15px;
+    right: 20px;
+    background: #05e6fbf2;
+    color: #000;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    font-family: cursive;
+}
+
+.home-btn:hover {
+    background: #adf7fdf2;
+    transform: scale(1.05);
+}
+.correct {
+    background: #05e6fbf2 !important;
+}
+#confetti {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 999;
+}
+
+</style>
+</head>
+<canvas id="confetti"></canvas>
+<body>
+<a href="index.html" class="home-btn">Home</a>
+<h1 class="sel">Sudoku</h1>
+
+<select id="sizeSelector" class="sel" onchange="loadSudoku()">
+    <option value="4">4 × 4</option>
+    <option value="6" selected>6 × 6</option>
+    <option value="9">9 × 9</option>
+</select>
+
+<div class="sudoku" id="sudoku"></div>
+
+<button class="sel"onclick="resetBoard()">Reset</button>
+
+<script>
+const puzzles = {
+    4: {
+    size: 4, boxR: 2, boxC: 2, cell: 50,
+    grid: [
+        [1, 0, 0, 4],
+        [0, 4, 1, 0],
+        [0, 1, 4, 0],
+        [4, 0, 0, 1]
+    ]
+},6: {
+    size: 6, boxR: 2, boxC: 3, cell: 50,
+    grid: [
+        [1, 0, 3, 0, 5, 6],
+        [0, 5, 0, 1, 0, 3],
+        [2, 0, 4, 0, 6, 0],
+        [0, 6, 0, 2, 0, 4],
+        [3, 0, 5, 0, 1, 0],
+        [6, 1, 0, 3, 0, 5]
+    ]
+},9: {
+    size: 9, boxR: 3, boxC: 3, cell: 45,
+    grid: [
+        [5, 3, 0, 0, 7, 0, 0, 0, 0],
+        [6, 0, 0, 1, 9, 5, 0, 0, 0],
+        [0, 9, 8, 0, 0, 0, 0, 6, 0],
+        [8, 0, 0, 0, 6, 0, 0, 0, 3],
+        [4, 0, 0, 8, 0, 3, 0, 0, 1],
+        [7, 0, 0, 0, 2, 0, 0, 0, 6],
+        [0, 6, 0, 0, 0, 0, 2, 8, 0],
+        [0, 0, 0, 4, 1, 9, 0, 0, 5],
+        [0, 0, 0, 0, 8, 0, 0, 7, 9]
+    ]
+}
+
+};
+
+const gridDiv = document.getElementById("sudoku");
+let currentConfig;
+
+function loadSudoku() {
+    const size = document.getElementById("sizeSelector").value;
+    currentConfig = puzzles[size];
+    createBoard();
+}
+
+function createBoard() {
+    gridDiv.innerHTML = "";
+    const { size, boxR, boxC, cell, grid } = currentConfig;
+
+    gridDiv.style.gridTemplateColumns = `repeat(${size}, ${cell}px)`;
+    gridDiv.style.gridTemplateRows = `repeat(${size}, ${cell}px)`;
+
+    grid.flat().forEach((val, index) => {
+        const input = document.createElement("input");
+        input.className = "cell";
+        input.maxLength = 1;
+        input.style.width = input.style.height = cell + "px";
+
+        const r = Math.floor(index / size);
+        const c = index % size;
+
+        if ((c + 1) % boxC === 0) input.style.borderRight = "3px solid #333";
+        if ((r + 1) % boxR === 0) input.style.borderBottom = "3px solid #333";
+
+        if (val !== 0) {
+            input.value = val;
+            input.disabled = true;
+        } else {
+            input.addEventListener("input", () => validate(input, index));
+        }
+
+        gridDiv.appendChild(input);
+    });
+}
+
+function validate(cell, index) {
+    const { size, boxR, boxC } = currentConfig;
+    const val = cell.value;
+
+    cell.classList.remove("invalid", "correct");
+
+    if (!new RegExp(`^[1-${size}]$`).test(val)) {
+        cell.value = "";
+        return;
+    }
+
+    const cells = document.querySelectorAll(".cell");
+    const row = Math.floor(index / size);
+    const col = index % size;
+
+    let isValid = true;
+
+    // Row & column check
+    for (let i = 0; i < size; i++) {
+        if (cells[row * size + i].value === val && i !== col) isValid = false;
+        if (cells[i * size + col].value === val && i !== row) isValid = false;
+    }
+
+    // Subgrid check
+    const br = Math.floor(row / boxR) * boxR;
+    const bc = Math.floor(col / boxC) * boxC;
+
+    for (let r = br; r < br + boxR; r++) {
+        for (let c = bc; c < bc + boxC; c++) {
+            if (cells[r * size + c].value === val && (r !== row || c !== col)) {
+                isValid = false;
+            }
+        }
+    }
+
+    // Apply color
+    if (isValid) {
+        cell.classList.add("correct");
+        if (checkCompletion()) {
+            launchConfetti();            
+        }
+    } else {
+        cell.classList.add("invalid");
+    }
+}
+function checkCompletion() {
+    const cells = document.querySelectorAll(".cell");
+
+    for (let cell of cells) {
+        if (!cell.disabled) {
+            if (cell.value === "" || cell.classList.contains("invalid")) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+
+function resetBoard() {
+    createBoard();
+}
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+let confettiPieces = [];
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+function launchConfetti() {
+    confettiPieces = [];
+    for (let i = 0; i < 200; i++) {
+        confettiPieces.push({
+            x: Math.random() * canvas.width,
+            y: canvas.height + Math.random() * 100,
+            size: Math.random() * 6 + 4,
+            color: `hsl(${Math.random() * 360}, 100%, 60%)`,
+            speedY: Math.random() * 6 + 4,
+            speedX: (Math.random() - 0.5) * 4,
+            rotation: Math.random() * 360
+        });
+    }
+    animateConfetti();
+}
+
+function animateConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    confettiPieces.forEach(p => {
+        ctx.fillStyle = p.color;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation * Math.PI / 180);
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+        ctx.restore();
+
+        p.y -= p.speedY;
+        p.x += p.speedX;
+        p.rotation += 5;
+    });
+
+    confettiPieces = confettiPieces.filter(p => p.y > -50);
+
+    if (confettiPieces.length > 0) {
+        requestAnimationFrame(animateConfetti);
+    }
+}
+
+loadSudoku();
+</script>
+
+</body>
+</html>

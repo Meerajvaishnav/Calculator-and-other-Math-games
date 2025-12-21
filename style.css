@@ -1,0 +1,130 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #1e1e2f;
+}
+
+/* Heading */
+.h1 {
+    width: 100%;
+    text-align: center;
+    font-size: 36px;
+    font-weight: 600;
+    padding: 20px 0;
+    margin: 0;
+    color: #ffffff;
+    letter-spacing: 2px;
+    font-family:cursive ;
+}
+
+/* Calculator container */
+.container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+    flex: 1;                 /* takes remaining space */
+}
+
+
+.calculator {
+    background: #2c2c3e;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#display {
+    width: 97%;
+    height: 40px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    text-align: right;
+}
+.h2 {
+    color: #ffffff;
+    text-align: center;
+    margin-top: 0;
+    font-family:cursive ;
+}
+.p {
+    color: #ffffff;
+    font-family:cursive ;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 60px);
+    gap: 10px;
+}
+
+.buttons button {
+    height: 50px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow:rgb(5, 230, 251, 0.949);
+}
+.Solve{
+    background: #6b5b5b;
+    color: white;
+}
+.buttons button:hover {
+    background:rgb(5, 230, 251, 0.949);
+    transform: scale(1.05);
+}
+
+.zero {
+    grid-column: span 2;
+}
+
+.game-btn {
+    grid-column: span 1;
+    font-family: cursive;
+}
+.g-btn {
+    height: 25px;
+    background: hsla(240, 33%, 99%, 0.912);
+    font-family: cursive;
+}
+
+.game {
+    position: fixed;
+    left: 300px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #2c2c3e;
+    padding: 20px;
+    border-radius: 10px;
+    display: none;
+    width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.more-btns button {
+    margin-right: 50px;
+    position: fixed;
+    transform: translateY(-50%);
+    padding: 12px 22px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #f0eff4;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px #05e6fbf2;
+    transition: transform 0.3s ease;
+    font-family: cursive;
+    width: 180px;
+}
+ .btn1 {
+    right: 50px;
+    top: 50%;
+}
+ .btn2 {
+    right: 50px;
+    top: 60%;
+}
