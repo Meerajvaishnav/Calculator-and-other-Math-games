@@ -1,0 +1,181 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #1e1e2f, #151a2a);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.h1 {
+    width: 100%;
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    padding: 20px 0;
+    margin: 0;
+    color: #e0e6ed;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    font-family: cursive;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+}
+
+.calculator {
+    background: linear-gradient(145deg, #2c2c3e, #24243a);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 
+        0 20px 40px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+    border: 1px solid rgba(5,230,251,0.2);
+    max-width: 350px;
+}
+
+input {
+    width: 100%;
+    height: 55px;
+    margin-bottom: 15px;
+    padding: 0 20px;
+    font-size: 18px;
+    background: linear-gradient(145deg, #1a1a28, #0f0f1f);
+    border: 2px solid rgba(5,230,251,0.3);
+    border-radius: 12px;
+    color: #e0e6ed;
+    font-weight: 500;
+    box-shadow: 
+        inset 0 2px 10px rgba(0,0,0,0.6),
+        0 4px 15px rgba(0,0,0,0.3);
+    box-sizing: border-box;
+    letter-spacing: 1px;
+}
+
+input::placeholder {
+    color: rgba(224,230,237,0.5);
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.buttons button {
+    height: 55px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    background: linear-gradient(145deg, #3a3a50, #2d2d40);
+    color: #e0e6ed;
+    box-shadow: 
+        0 4px 12px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    font-family: cursive;
+}
+
+.buttons button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.buttons button:hover::before {
+    left: 100%;
+}
+
+.buttons button:hover {
+    background: linear-gradient(145deg, #05e6fb, #00c4d6);
+    color: #0f1a20;
+    box-shadow: 
+        0 6px 20px rgba(5,230,251,0.6),
+        0 2px 8px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+    transform: translateY(-2px);
+}
+
+.buttons button:active {
+    transform: translateY(0);
+    box-shadow: 
+        0 2px 8px rgba(5,230,251,0.4),
+        inset 0 2px 6px rgba(0,0,0,0.3);
+}
+
+/* String function button styling */
+.str-btn { background: linear-gradient(145deg, #4a4a60, #3d3d50); }
+.str-btn:hover { background: linear-gradient(145deg, #05e6fb, #00c4d6); }
+
+.append-btn { 
+    grid-column: span 3;
+    background: linear-gradient(145deg, #00aa44, #00cc55);
+    font-size: 18px;
+    font-weight: 700;
+}
+.append-btn:hover { 
+    background: linear-gradient(145deg, #00ff66, #33ff88);
+    box-shadow: 
+        0 8px 25px rgba(0,255,102,0.6),
+        0 4px 12px rgba(0,0,0,0.4);
+}
+
+.result {
+    margin-top: 20px;
+    min-height: 50px;
+    padding: 20px;
+    background: linear-gradient(145deg, #1a1a28, #0f0f1f);
+    border: 2px solid rgba(5,230,251,0.3);
+    border-radius: 12px;
+    color: #00e6fb;
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+    box-shadow: 
+        inset 0 2px 10px rgba(0,0,0,0.6),
+        0 4px 15px rgba(0,0,0,0.3);
+    box-sizing: border-box;
+    letter-spacing: 1px;
+    font-family: cursive;
+}
+
+.back-btn {
+    margin-top: 20px;
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(145deg, hsla(185, 91%, 54%, 0.957));
+    color: #000;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 
+        0 4px 12px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: cursive;
+}
+
+.back-btn:hover {
+    background: linear-gradient(145deg, #05e6fbf2, #adf7fdf2);
+    box-shadow: 
+        0 6px 20px rgba(5, 204, 248, 0.6),
+        0 2px 8px rgba(0,0,0,0.4);
+    transform: translateY(-2px);
+}

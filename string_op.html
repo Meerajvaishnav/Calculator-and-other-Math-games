@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>String Calculator</title>
+    <link rel="stylesheet" href="string_style.css">
+    <script src="string_script.js" defer></script>
+</head>
+<body>
+
+<h1 class="h1">String Calculator</h1>
+
+<div class="container">
+    <div class="calculator">
+
+        <input type="text" id="string1" placeholder="Enter string 1">
+        <input type="text" id="string2" placeholder="Enter string 2 (for append)">
+        <div class="buttons">
+            <button class="str-btn" onclick="stringLength()">LEN</button>
+            <button class="str-btn" onclick="reverseString()">REV</button>
+            <button class="str-btn" onclick="toUpper()">UPPER</button>
+            <button class="str-btn" onclick="toLower()">LOWER</button>
+            <button class="str-btn" onclick="checkPalindrome()">PAL</button>
+            <button class="str-btn" onclick="countVowels()">VOW</button>
+            <button class="append-btn" onclick="appendStrings()">APPEND</button>
+        </div>
+        <div class="result" id="result"></div>
+        <button class="back-btn" onclick="goBack()">Back to Calculator</button>
+    </div>
+</div>
+
+</body>
+</html>
