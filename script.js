@@ -1,5 +1,7 @@
+// ---------------- CALCULATOR ----------------
 function append(value) {
     const display = document.getElementById("display");
+
     if (value === ".") {
         let parts = display.value.split(/[\+\-\*\/]/);
         if (parts[parts.length - 1].includes(".")) return;
@@ -26,7 +28,7 @@ function calculate() {
     }
 }
 
-// ---------------- GAME LOGIC ----------------
+// ---------------- GAME ----------------
 let score = 0;
 let correctAnswer = 0;
 
@@ -38,39 +40,37 @@ function startGame() {
 }
 
 function generateQuestion() {
-    let num1 = (Math.random() * 10).toFixed(1);
-    let num2 = (Math.random() * 10).toFixed(1);
+    let num1 = Number((Math.random() * 10).toFixed(1));
+    let num2 = Number((Math.random() * 10).toFixed(1));
     let operators = ["+", "-", "*"];
     let op = operators[Math.floor(Math.random() * operators.length)];
 
     let question = `${num1} ${op} ${num2}`;
-    correctAnswer = parseFloat(eval(question).toFixed(2));
+    correctAnswer = Number(eval(question).toFixed(2));
 
-    const q = document.getElementById("question");
-    q.innerText = "Solve: " + question;
-    q.style.color = "#f7fbfc";
-    q.style.fontFamily = "cursive";
-
+    document.getElementById("question").innerText = "Solve: " + question;
     document.getElementById("answer").value = "";
     document.getElementById("result").innerText = "";
 }
 
-function checkAnswer() {
-    let answerInput = document.getElementById("answer").value;
+function checkAnswer(event) {
+    event.preventDefault();
 
-    if (answerInput === "") {
-        document.getElementById("result").innerText = "Please enter an answer!";
+    let input = document.getElementById("answer").value.trim();
+    let resultBox = document.getElementById("result");
+
+    if (input === "") {
+        resultBox.innerText = "Enter an answer!";
         return;
     }
 
-    let userAnswer = parseFloat(answerInput);
+    let userAnswer = Number(input);
 
     if (Math.abs(userAnswer - correctAnswer) < 0.01) {
         score++;
-        document.getElementById("result").innerText = "Correct!";
+        resultBox.innerText = "Correct!";
     } else {
-        document.getElementById("result").innerText =
-            `Wrong! Answer was ${correctAnswer}`;
+        resultBox.innerText = `Wrong! Answer was ${correctAnswer}`;
     }
 
     document.getElementById("score").innerText = score;
