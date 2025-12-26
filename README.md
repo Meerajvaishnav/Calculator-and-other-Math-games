@@ -7,7 +7,7 @@ This project focuses on improving **numerical ability, logical reasoning, and pr
 ## Live Website
 You can access the deployed version of this project here:
 **Website URL:**  
-https://calculator-and-other-math-games-qan1obw5i.vercel.app/
+https://calculator-and-other-math-games.vercel.app/
 
 ---
 ## Project Motivation
