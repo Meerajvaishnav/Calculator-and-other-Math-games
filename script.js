@@ -1,8 +1,5 @@
-// Calculator Logic
 function append(value) {
     const display = document.getElementById("display");
-
-    // Prevent multiple dots in the same number
     if (value === ".") {
         let parts = display.value.split(/[\+\-\*\/]/);
         if (parts[parts.length - 1].includes(".")) return;
@@ -29,11 +26,13 @@ function calculate() {
     }
 }
 
-// Game Logic
+// ---------------- GAME LOGIC ----------------
 let score = 0;
 let correctAnswer = 0;
 
 function startGame() {
+    score = 0;
+    document.getElementById("score").innerText = score;
     document.getElementById("game").style.display = "block";
     generateQuestion();
 }
@@ -49,25 +48,34 @@ function generateQuestion() {
 
     const q = document.getElementById("question");
     q.innerText = "Solve: " + question;
-    q.style.color = "#f7fbfcff";
+    q.style.color = "#f7fbfc";
     q.style.fontFamily = "cursive";
+
     document.getElementById("answer").value = "";
     document.getElementById("result").innerText = "";
 }
 
 function checkAnswer() {
-    let userAnswer = parseFloat(document.getElementById("answer").value);
+    let answerInput = document.getElementById("answer").value;
+
+    if (answerInput === "") {
+        document.getElementById("result").innerText = "Please enter an answer!";
+        return;
+    }
+
+    let userAnswer = parseFloat(answerInput);
 
     if (Math.abs(userAnswer - correctAnswer) < 0.01) {
         score++;
         document.getElementById("result").innerText = "Correct!";
     } else {
         document.getElementById("result").innerText =
-            "Wrong! Answer was " + correctAnswer;
+            `Wrong! Answer was ${correctAnswer}`;
     }
 
     document.getElementById("score").innerText = score;
-    generateQuestion();
+
+    setTimeout(generateQuestion, 1500);
 }
 
 function exitGame() {
